@@ -1,0 +1,29 @@
+{
+  "name": "eosio-wallets",
+  "version": "0.1.6",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "anchor-link": "^3.5.0",
+    "anchor-link-browser-transport": "^3.5.0",
+    "bufferutil": "^4.0.6",
+    "encoding": "^0.1.13",
+    "eosjs": "^22.1.0",
+    "node-fetch": "^3.2.6",
+    "scatter-ts": "^0.1.9",
+    "utf-8-validate": "^5.0.9"
+  }
+}
