@@ -1,6 +1,8 @@
 # eosio-wallets
 Frontend library to handle EOSIO wallets.
+
 Allows to connect/disconnect to Anchor/ScatterJS wallets and push transactions.
+
 Optionally makes possible backend transaction cosigning to pay for user resources.
 
 
@@ -43,4 +45,5 @@ await Wallet.logout();
 
 ### Example
 Demo: https://eosio-wallet.vercel.app/
-Source code: https://github.com/dotGems/eosio-wallets-ui
+
+Source code: https://github.com/EOS-Nation/eosio-wallets-ui
