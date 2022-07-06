@@ -1,9 +1,10 @@
 # eosio-wallets
-Frontend library to handle EOSIO wallets
+Frontend library to handle EOSIO wallets.
+Allows to connect/disconnect to Anchor/ScatterJS wallets and push transactions.
+Optionally makes possible backend transaction cosigning to pay for user resources.
 
 
 ### Install
-
 ```
 yarn add eosio-wallets
 ```
@@ -23,21 +24,23 @@ Wallet.init({
 
 ### Usage
 ```
-const account = await Wallet.login(protocol);                    // connect to wallet with protocol "anchor"/"scatter"
+// connect to wallet ("anchor"/"scatter" protocols allowed)
+const account = await Wallet.login(protocol);
 
+// define action
 const action = {
         account: 'eosio.token',
         name: 'transfer',
         authorization: [{ actor: 'fromaccount', permission: 'active' }],
-        data: {
-            'fromaccount',
-            'toaccount',
-            '0.0001 EOS',
-            'memo`
-        }
+        data: { 'fromaccount', 'toaccount', '0.0001 EOS', 'memo` }
 };
-const trxId = await Wallet.pushTransaction( [action], protocol, true ); // push transaction
+// push the action
+const trxId = await Wallet.pushTransaction( [action], protocol, true );
 
-await Wallet.logout();                                           // disconnect wallet
-
+// disconnect
+await Wallet.logout();
 ```
+
+### Example
+Demo: https://eosio-wallet.vercel.app/
+Source code: https://github.com/dotGems/eosio-wallets-ui
