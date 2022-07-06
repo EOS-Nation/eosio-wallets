@@ -35,21 +35,11 @@ export async function handleScatter(actions: Action[], cosign: boolean, flash: (
     return transaction_id;
   }
 
-  let signed: PushTransactionArgs;
-  try {
-    // sign with scatter wallet without broadcasting
-    signed = await sign(cosigned.transaction)
+  // sign with scatter wallet without broadcasting
+  const signed = await sign(cosigned.transaction)
 
-    // add backend signature
-    signed.signatures.push( cosigned.signatures[0] )
-
-  }
-  catch(err: any) {
-    // if failed to sign/push - just sign original actions
-    if(flash && cosigned) flash(`Failed to cosign: ${err.message ?? err}`, 'warning')
-    const { transaction_id } = (await transact(actions) as any)
-    return transaction_id;
-  }
+  // add backend signature
+  signed.signatures.push( cosigned.signatures[0] )
 
   // broadcast the transaction
   const response = await push(signed)
