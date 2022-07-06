@@ -10,9 +10,9 @@ yarn add eosio-wallets
 
 ### Configure
 ```
-import { configWallet } from "eosio-wallets";
+import Wallet from "eosio-wallets";
 
-configWallet({
+Wallet.init({
       rpcEndpoint: "https://eos.eosn.io",                     // EOSIO RPC endpoint
       chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",   // Chain ID
       appId: "myApp",                                         // App ID for wallets
@@ -23,9 +23,7 @@ configWallet({
 
 ### Usage
 ```
-import { loginWallet, logoutWallet, pushTransaction } from "eosio-wallets";
-
-const account = await loginWallet(protocol);                    // connect to wallet with protocol "anchor"/"scatter"
+const account = await Wallet.login(protocol);                    // connect to wallet with protocol "anchor"/"scatter"
 
 const action = {
         account: 'eosio.token',
@@ -38,8 +36,8 @@ const action = {
             'memo`
         }
 };
-const trxId = await pushTransaction( [action], protocol, true ); // push transaction
+const trxId = await Wallet.pushTransaction( [action], protocol, true ); // push transaction
 
-await logoutWallet();                                           // disconnect wallet
+await Wallet.logout();                                           // disconnect wallet
 
 ```
