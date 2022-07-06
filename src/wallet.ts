@@ -26,7 +26,7 @@ export interface WalletAccount {
 
 export let Config: WalletConfig;
 
-export function configWallet( config: WalletConfig ) {
+export function init( config: WalletConfig ) {
 
   if(!config.rpcEndpoint.startsWith('http') || config.chainId == '' || config.appId == '') throw new Error("Invalid wallet config");
 
@@ -43,7 +43,7 @@ export function configWallet( config: WalletConfig ) {
 }
 
 
-export async function loginWallet(walletProtocol: string = "anchor"): Promise<WalletAccount> {
+export async function login(walletProtocol: string = "anchor"): Promise<WalletAccount> {
 
   if ( walletProtocol == "scatter" ) {
     const account = await scatter.login();
@@ -57,7 +57,7 @@ export async function loginWallet(walletProtocol: string = "anchor"): Promise<Wa
   throw new Error("Invalid wallet protocol");
 }
 
-export async function logoutWallet( ): Promise<void> {
+export async function logout( ): Promise<void> {
   await Promise.all([
     scatter.disconnect(),
     anchor.disconnect()
