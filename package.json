@@ -1,7 +1,7 @@
 {
   "name": "eosio-wallets",
   "version": "0.2.5",
-  "description": "",
+  "description": "EOSIO wallets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -9,13 +9,16 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Yaro <yaro@eosnation.io>",
+  "license": "MIT",
   "devDependencies": {
-    "typescript": "^4.8.3"
+    "typescript": "4.*",
+    "@types/jest": "28.*",
+    "jest": "28.*",
+    "ts-jest": "28.*"
   },
   "dependencies": {
     "anchor-link": "^3.5.1",
