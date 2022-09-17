@@ -20,8 +20,8 @@ export interface WalletConfig {
 }
 
 export interface WalletAccount {
-  actor: string,
-  permission: string,
+  actor?: string,
+  permission?: string,
 }
 
 export let Config: WalletConfig;

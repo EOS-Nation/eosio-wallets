@@ -5,7 +5,7 @@ import { cosignTransactionBackend } from "./cosign";
 import { SignedTransaction } from "anchor-link";
 import { Action } from "eosjs/dist/eosjs-serialize";
 
-let link: AnchorLink = undefined;
+let link: AnchorLink;
 
 export function init() {
   link = new AnchorLink({
@@ -21,7 +21,6 @@ export function init() {
     ],
   })
 }
-
 
 export async function handleAnchor(actions: Action[], cosign: boolean, flash: ((message: string, type: 'error'|'success'|'warning'|'info') => void) | undefined) {
   const session = await login();

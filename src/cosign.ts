@@ -3,6 +3,7 @@ import { Action, } from "eosjs/dist/eosjs-serialize";
 import { Config } from './wallet'
 
 export async function cosignTransactionBackend(actions: Action[], signer: PermissionLevel): Promise<{transaction: any, signatures: string[]} | undefined> {
+  if ( !Config.cosignEndpoint) return;
 
   try {
     const resp = await fetch(Config.cosignEndpoint, {
