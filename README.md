@@ -36,8 +36,8 @@ const account = await Wallet.login(protocol);
 const action = {
     account: 'eosio.token',
     name: 'transfer',
-    authorization: [{ actor: 'fromaccount', permission: 'active' }],
-    data: { 'fromaccount', 'toaccount', '0.0001 EOS', 'memo' }
+    authorization: [{ actor: 'sender', permission: 'active' }],
+    data: { from: 'sender', to: 'receiver', quantity: '0.0001 EOS', memo: 'hello' }
 };
 // push the action
 const trxId = await Wallet.pushTransaction( [action], protocol, true );
