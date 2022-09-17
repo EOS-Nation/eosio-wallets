@@ -15,15 +15,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.3"
   },
   "dependencies": {
-    "anchor-link": "^3.5.0",
-    "anchor-link-browser-transport": "^3.5.0",
+    "anchor-link": "^3.5.1",
+    "anchor-link-browser-transport": "^3.5.1",
     "bufferutil": "^4.0.6",
     "encoding": "^0.1.13",
     "eosjs": "^22.1.0",
-    "node-fetch": "^3.2.6",
+    "node-fetch": "^3.2.10",
     "scatter-ts": "^0.1.9",
     "utf-8-validate": "^5.0.9"
   }
