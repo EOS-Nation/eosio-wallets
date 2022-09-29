@@ -16,7 +16,7 @@ export interface WalletConfig {
   chainId: string,
   appId: string,
   cosignReferrer?: string,
-  cosignEndpoint?: string
+  cosignEndpoint?: string,
 }
 
 export interface WalletAccount {

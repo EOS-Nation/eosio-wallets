@@ -4,6 +4,9 @@ import { Config } from './wallet'
 import { cosignTransactionBackend } from "./cosign";
 import { SignedTransaction } from "anchor-link";
 import { Action } from "eosjs/dist/eosjs-serialize";
+import fetchPonyfill from 'fetch-ponyfill';
+const { fetch } = fetchPonyfill();
+global.fetch = fetch;
 
 let link: AnchorLink;
 

@@ -1,6 +1,6 @@
 {
   "name": "eosio-wallets",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "EOSIO wallets",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,13 +20,14 @@
     "bufferutil": "^4.0.6",
     "encoding": "^0.1.13",
     "eosjs": "^22.1.0",
+    "fetch-ponyfill": "^7.1.0",
     "scatter-ts": "^0.1.9",
     "utf-8-validate": "^5.0.9"
   },
   "devDependencies": {
-    "typescript": "4.*",
     "@types/jest": "28.*",
     "jest": "28.*",
-    "ts-jest": "28.*"
+    "ts-jest": "28.*",
+    "typescript": "4.*"
   }
 }

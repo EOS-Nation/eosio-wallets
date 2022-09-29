@@ -4,6 +4,9 @@ import { Config } from './wallet'
 import { cosignTransactionBackend } from './cosign'
 import { Transaction, TransactResult } from 'eosjs/dist/eosjs-api-interfaces';
 import { PushTransactionArgs } from 'eosjs/dist/eosjs-rpc-interfaces';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch } = fetchPonyfill();
 
 let network: Network;
 let rpc: JsonRpc;
