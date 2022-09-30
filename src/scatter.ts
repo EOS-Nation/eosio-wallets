@@ -5,6 +5,7 @@ import { cosignTransactionBackend } from './cosign'
 import { Transaction, TransactResult } from 'eosjs/dist/eosjs-api-interfaces';
 import { PushTransactionArgs } from 'eosjs/dist/eosjs-rpc-interfaces';
 import fetchPonyfill from 'fetch-ponyfill';
+import { SendTransaction2Options } from './wallet';
 
 const { fetch } = fetchPonyfill();
 
@@ -28,7 +29,7 @@ export async function init() {
 }
 
 
-export async function handleScatter(actions: Action[], cosign: boolean, flash: ((message: string, type: 'error'|'success'|'warning'|'info') => void) | undefined) {
+export async function handleScatter(actions: Action[], cosign = false, options?: SendTransaction2Options) {
   const account = await login();
 
   const cosigned = cosign ? await cosignTransactionBackend(actions, { actor: account.name, permission: account.authority }) : false;

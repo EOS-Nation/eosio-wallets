@@ -5,6 +5,7 @@ import { cosignTransactionBackend } from "./cosign";
 import { SignedTransaction } from "anchor-link";
 import { Action } from "eosjs/dist/eosjs-serialize";
 import fetchPonyfill from 'fetch-ponyfill';
+import { SendTransaction2Options } from "./wallet";
 const { fetch } = fetchPonyfill();
 global.fetch = fetch;
 
@@ -25,7 +26,7 @@ export function init() {
   })
 }
 
-export async function handleAnchor(actions: Action[], cosign: boolean, flash: ((message: string, type: 'error'|'success'|'warning'|'info') => void) | undefined) {
+export async function handleAnchor(actions: Action[], cosign = false, options?: SendTransaction2Options ) {
   const session = await login();
   if (!session) return "";
 
@@ -40,14 +41,14 @@ export async function handleAnchor(actions: Action[], cosign: boolean, flash: ((
   const local = await session.transact({ ... cosigned.transaction }, { broadcast: false });
 
   // merge signatures and broadcast the transaction
-  const response = await session.client.v1.chain.push_transaction(
+  const response = await session.client.v1.chain.send_transaction2(
     SignedTransaction.from({
       ...local.transaction,
       signatures: [
         ...local.signatures,
         ...cosigned.signatures,
       ]
-    })
+    }), options
   );
 
   return response.transaction_id;

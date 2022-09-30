@@ -24,6 +24,12 @@ export interface WalletAccount {
   permission?: string,
 }
 
+export interface SendTransaction2Options {
+  return_failure_trace?: boolean;
+  retry_trx?: boolean;
+  retry_trx_num_blocks?: number;
+}
+
 export let Config: WalletConfig;
 
 export function init( config: WalletConfig ) {
@@ -64,7 +70,7 @@ export async function logout( ): Promise<void> {
   ]);
 }
 
-export function pushTransaction(actions: Action[], walletProtocol = "anchor", cosign = false, flash: ((message: string, type: 'error'|'success'|'warning'|'info') => void) | undefined = undefined) {
+export function pushTransaction(actions: Action[], walletProtocol = "anchor", cosign = false, options?: SendTransaction2Options ): Promise<string> {
 
   // input validation
   if (!walletProtocol) throw new (Error as any)('lib/wallet::pushTransaction:', { err: "[walletProtocol] is required" });
@@ -73,8 +79,8 @@ export function pushTransaction(actions: Action[], walletProtocol = "anchor", co
   if (cosign && !Config.cosignEndpoint) throw new (Error as any)('lib/wallet::pushTransaction:', { err: "[cosignEndpoint] is not configured" });
 
   // handle different wallet protocols
-  if (walletProtocol == "anchor") return anchor.handleAnchor(actions, cosign, flash);
-  else if (walletProtocol == "scatter") return scatter.handleScatter(actions, cosign, flash);
+  if (walletProtocol == "anchor") return anchor.handleAnchor( actions, cosign, options );
+  else if (walletProtocol == "scatter") return scatter.handleScatter( actions, cosign, options );
   throw new (Error as any)('lib/wallet::pushTransaction:', { err: "[walletProtocol] must be 'scatter|anchor'" });
 }
 
