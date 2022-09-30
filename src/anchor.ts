@@ -35,28 +35,36 @@ export async function handleAnchor(actions: Action[], cosign = false, options?: 
   if (!session) return { transaction_id: '' }
 
   const cosigned = cosign ? await cosignTransactionBackend(actions, {actor: session.auth.actor.toString(), permission: session.auth.permission.toString()}) : false;
+
   if (!cosigned) {
     // if failed to cosign - just sign via wallet
-    const { transaction } = await session.transact({ actions });
-    return {transaction_id: transaction.id.toString()};
+    const local = await session.transact({ actions }, { broadcast: false });
+    const response: any = await session.client.v1.chain.send_transaction2(
+      SignedTransaction.from({
+        ...local.transaction,
+        signatures: [ ...local.signatures ]
+      }), options
+    );
+    return response;
+
+  // cosigned transaction
+  } else {
+    // submit to anchor for user to sign without broadcasting
+    const local = await session.transact({ ... cosigned.transaction }, { broadcast: false });
+
+    // merge signatures and broadcast the transaction
+    const response: any = await session.client.v1.chain.send_transaction2(
+      SignedTransaction.from({
+        ...local.transaction,
+        signatures: [
+          ...local.signatures,
+          ...cosigned.signatures,
+        ]
+      }), options
+    );
+    return response;
   }
-
-  // submit to anchor for user to sign without broadcasting
-  const local = await session.transact({ ... cosigned.transaction }, { broadcast: false });
-
-  // merge signatures and broadcast the transaction
-  const response: any = await session.client.v1.chain.send_transaction2(
-    SignedTransaction.from({
-      ...local.transaction,
-      signatures: [
-        ...local.signatures,
-        ...cosigned.signatures,
-      ]
-    }), options
-  );
-  return response;
 }
-
 
 export async function getAccount() {
   return sessionToAccount(await login());
