@@ -1,48 +1,46 @@
 import * as anchor from "./anchor";
 import * as scatter from "./scatter";
 import { Action } from "eosjs/dist/eosjs-serialize";
-
-export interface Wallet {
-  actor: string;
-  permission: string;
-  publicKey: string;
-  wallet: string;
-  protocol: string;
-  chain: string;
-}
-
-export interface WalletConfig {
-  rpcEndpoint: string,
-  chainId: string,
-  appId: string,
-  cosignReferrer?: string,
-  cosignEndpoint?: string,
-}
-
-export interface WalletAccount {
-  actor?: string,
-  permission?: string,
-}
-
-export interface SendTransaction2Options {
-  return_failure_trace?: boolean;
-  retry_trx?: boolean;
-  retry_trx_num_blocks?: number;
-}
+import { EOSIO_RPCS, EOSIO_CHAIN_IDS, REVERSE_EOSIO_CHAIN_IDS } from "./constants"
+import { WalletConfig, WalletAccount, SendTransaction2Options, SendTransaction2Response } from "./interfaces";
 
 export let Config: WalletConfig;
 
-export function init( config: WalletConfig ) {
-
-  if(!config.rpcEndpoint.startsWith('http') || config.chainId == '' || config.appId == '') throw new Error("Invalid wallet config");
-
+function checkRpcEndpoint(rpcEndpoint: string) {
+  if ( !rpcEndpoint.startsWith('http') ) throw new Error("rpcEndpoint must start with http:// or https://");
   try {
-    const { protocol } = new URL(config.rpcEndpoint);
+    new URL(rpcEndpoint);
   } catch( err ) {
-    throw new Error("Invalid wallet config");
+    throw new Error("rpcEndpoint is not a valid URL");
+  }
+}
+
+export function init( config: WalletConfig ) {
+  let rpcEndpoint = config.rpcEndpoint;
+  let chainId = config.chainId;
+  let blockchain = config.blockchain;
+
+  if ( config.blockchain ) {
+    if ( !EOSIO_RPCS.has(config.blockchain) ) throw new Error("blockchain is not supported");
+    if ( !rpcEndpoint ) rpcEndpoint = EOSIO_RPCS.get(config.blockchain) || "";
+    if ( !chainId ) chainId = EOSIO_CHAIN_IDS.get(config.blockchain) || "";
+  } else {
+    if ( !chainId ) throw new Error("chainId is not set");
+    blockchain = REVERSE_EOSIO_CHAIN_IDS.get(chainId);
   }
 
+  // validate config
+  if ( !rpcEndpoint ) throw new Error("rpcEndpoint is required");
+  if ( !chainId ) throw new Error("chainId is required");
+  if ( !blockchain ) throw new Error("blockchain is required");
+  if ( !config.appId ) throw new Error("appId is required");
+  if ( !config.appId.match(/^[1-5a-z\.]{2,12}$/) ) throw new Error("appId is invalid (must be 2-12 characters long and contain only lowercase letters, numbers, and dots)");
+  checkRpcEndpoint(rpcEndpoint);
+
   Config = config;
+  Config.chainId = chainId;
+  Config.rpcEndpoint = rpcEndpoint;
+  Config.blockchain = blockchain;
 
   anchor.init();
   scatter.init();
@@ -70,7 +68,7 @@ export async function logout( ): Promise<void> {
   ]);
 }
 
-export function pushTransaction(actions: Action[], walletProtocol = "anchor", cosign = false, options?: SendTransaction2Options ): Promise<string> {
+export function pushTransaction(actions: Action[], walletProtocol = "anchor", cosign = false, options?: SendTransaction2Options ): Promise<SendTransaction2Response> {
 
   // input validation
   if (!walletProtocol) throw new (Error as any)('lib/wallet::pushTransaction:', { err: "[walletProtocol] is required" });
