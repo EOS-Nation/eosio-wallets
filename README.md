@@ -17,6 +17,13 @@ yarn add eosio-wallets
 ```ts
 import Wallet from "eosio-wallets";
 
+// basic usage
+Wallet.init({
+    blockchain: "eos",
+    appId: "myapp",
+});
+
+// cosigner usage
 Wallet.init({
     rpcEndpoint: "https://eos.api.eosnation.io",                     // EOSIO RPC endpoint
     chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",   // Chain ID
@@ -40,7 +47,8 @@ const action = {
     data: { from: 'sender', to: 'receiver', quantity: '0.0001 EOS', memo: 'hello' }
 };
 // push the action
-const trxId = await Wallet.pushTransaction( [action], protocol, true );
+const cosign = true;
+const { transaction_id, processed } = await Wallet.pushTransaction( [action], protocol, cosign );
 
 // disconnect
 await Wallet.logout();
