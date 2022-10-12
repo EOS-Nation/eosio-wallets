@@ -1,3 +1,6 @@
+import { Action } from "eosjs/dist/eosjs-serialize";
+
+export { Action };
 export interface Wallet {
     actor: string;
     permission: string;

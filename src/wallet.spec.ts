@@ -1,4 +1,4 @@
-import * as Wallet from "./wallet";
+import Wallet, { Processed, Action } from "./index";
 
 test("Wallet.init", () => {
     // basic usage
