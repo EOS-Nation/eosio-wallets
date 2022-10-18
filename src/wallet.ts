@@ -1,8 +1,7 @@
 import * as anchor from "./anchor";
 import * as scatter from "./scatter";
-import { Action } from "eosjs/dist/eosjs-serialize";
 import { EOSIO_RPCS, EOSIO_CHAIN_IDS, REVERSE_EOSIO_CHAIN_IDS } from "./constants"
-import { WalletConfig, WalletAccount, SendTransaction2Options, SendTransaction2Response } from "./interfaces";
+import { Action, WalletConfig, WalletAccount, SendTransaction2Options, SendTransaction2Response } from "./interfaces";
 
 export let Config: WalletConfig;
 
