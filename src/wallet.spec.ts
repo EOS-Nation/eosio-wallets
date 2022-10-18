@@ -1,4 +1,6 @@
-import Wallet, { Processed, Action } from "./index";
+import Wallet, { Processed, Action } from "../index";
+import { fetch } from "./utils";
+global.fetch = fetch;
 
 test("Wallet.init", () => {
     // basic usage

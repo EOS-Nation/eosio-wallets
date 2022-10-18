@@ -1,4 +1,3 @@
-import fetchPonyfill from 'fetch-ponyfill';
 import AnchorLink, { LinkSession } from 'anchor-link'
 import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
 import { SignedTransaction } from "anchor-link";
@@ -6,8 +5,6 @@ import { Action } from "eosjs/dist/eosjs-serialize";
 import { Config } from './wallet'
 import { cosignTransactionBackend } from "./cosign";
 import { SendTransaction2Options, SendTransaction2Response } from "./interfaces";
-const { fetch } = fetchPonyfill();
-global.fetch = fetch;
 
 let link: AnchorLink;
 

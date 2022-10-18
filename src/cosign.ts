@@ -1,9 +1,7 @@
 import { PermissionLevel } from "eosjs/dist/eosjs-rpc-interfaces";
 import { Action } from "eosjs/dist/eosjs-serialize";
 import { Config } from './wallet'
-import fetchPonyfill from 'fetch-ponyfill';
-
-const { fetch } = fetchPonyfill();
+import { fetch } from './utils';
 
 export async function cosignTransactionBackend(actions: Action[], signer: PermissionLevel): Promise<{transaction: any, signatures: string[]} | undefined> {
   if ( !Config.cosignEndpoint) return;
