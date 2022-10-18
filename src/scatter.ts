@@ -1,10 +1,8 @@
 import { ScatterJS, ScatterEOS, Action, ScatterAccount, Network } from 'scatter-ts';
-import { JsonRpc, Api } from 'eosjs';
-import { Config } from './wallet'
+import { JsonRpc, Api } from 'enf-eosjs';
+import { PushTransactionArgs, TransactResult, Transaction, SendTransaction2Options, SendTransaction2Response } from './interfaces';
 import { cosignTransactionBackend } from './cosign'
-import { Transaction, TransactResult } from 'eosjs/dist/eosjs-api-interfaces';
-import { PushTransactionArgs } from 'eosjs/dist/eosjs-rpc-interfaces';
-import { SendTransaction2Options, SendTransaction2Response } from './interfaces';
+import { Config } from './wallet'
 import { fetch } from './utils';
 
 let network: Network;
@@ -26,7 +24,7 @@ export async function init() {
     chainId: Config.chainId
   });
 
-  rpc = new JsonRpc(network.fullhost(), {fetch});
+  rpc = new JsonRpc(network.fullhost(), {fetch: fetch as any});
 }
 
 
@@ -60,7 +58,7 @@ export async function handleScatter(actions: Action[], cosign = false, options?:
 }
 
 export function getApi() {
-  return ScatterJS.eos(network, Api, { rpc });
+  return ScatterJS.eos(network, Api, { rpc: rpc as any });
 }
 
 export async function transact(actions: Action[]) {
@@ -94,9 +92,9 @@ export async function sign(transaction: Transaction) {
 }
 
 
-export async function push(transaction: PushTransactionArgs) {
+export async function push(transaction: PushTransactionArgs): Promise<TransactResult> {
   const api = getApi();
-  return await api.pushSignedTransaction(transaction) as TransactResult;
+  return api.pushSignedTransaction(transaction) as any;
 }
 
 export async function connect() {

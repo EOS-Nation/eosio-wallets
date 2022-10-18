@@ -1,10 +1,9 @@
 import AnchorLink, { LinkSession } from 'anchor-link'
 import AnchorLinkBrowserTransport from 'anchor-link-browser-transport'
 import { SignedTransaction } from "anchor-link";
-import { Action } from "eosjs/dist/eosjs-serialize";
 import { Config } from './wallet'
 import { cosignTransactionBackend } from "./cosign";
-import { SendTransaction2Options, SendTransaction2Response } from "./interfaces";
+import { Action, SendTransaction2Options, SendTransaction2Response } from "./interfaces";
 
 let link: AnchorLink;
 

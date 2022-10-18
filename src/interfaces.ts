@@ -1,6 +1,76 @@
-import { Action } from "eosjs/dist/eosjs-serialize";
+export interface Transaction {
+    expiration?: string;
+    ref_block_num?: number;
+    ref_block_prefix?: number;
+    max_net_usage_words?: number;
+    max_cpu_usage_ms?: number;
+    delay_sec?: number;
+    context_free_actions?: Action[];
+    context_free_data?: Uint8Array[];
+    actions: Action[];
+    transaction_extensions?: [number, string][];
+    resource_payer?: ResourcePayer;
+}
 
-export { Action };
+/** Arguments for `push_transaction` */
+export interface PushTransactionArgs {
+    signatures: string[];
+    compression?: number;
+    serializedTransaction: Uint8Array;
+    serializedContextFreeData?: Uint8Array;
+}
+
+export interface TransactResult {
+    transaction_id: string;
+    processed: TransactionTrace;
+}
+
+export interface TransactionReceiptHeader {
+    status: string;
+    cpu_usage_us: number;
+    net_usage_words: number;
+}
+
+export interface TransactionTrace {
+    id: string;
+    block_num: number;
+    block_time: string;
+    producer_block_id: string | null;
+    receipt: TransactionReceiptHeader | null;
+    elapsed: number;
+    net_usage: number;
+    scheduled: boolean;
+    action_traces: ActionTrace[];
+    account_ram_delta: AccountDelta | null;
+    except: string | null;
+    error_code: number | null;
+    bill_to_accounts: string[];
+}
+
+export interface AccountDelta {
+    account: string;
+    delta: number;
+}
+
+export interface ResourcePayer {
+    payer: string;
+    max_net_bytes: number;
+    max_cpu_us: number;
+    max_memory_bytes: number;
+}
+
+export interface PermissionLevel {
+    actor: string;
+    permission: string;
+}
+
+export interface Action {
+    account: string;
+    name: string;
+    authorization: Authorization[];
+    data: any;
+}
+
 export interface Wallet {
     actor: string;
     permission: string;

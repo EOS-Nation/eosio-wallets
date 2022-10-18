@@ -46,7 +46,6 @@ export function init( config: WalletConfig ) {
   scatter.init();
 }
 
-
 export async function login(walletProtocol: string = "anchor"): Promise<WalletAccount> {
 
   if ( walletProtocol == "scatter" ) {

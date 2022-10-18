@@ -1,5 +1,4 @@
-import { PermissionLevel } from "eosjs/dist/eosjs-rpc-interfaces";
-import { Action } from "eosjs/dist/eosjs-serialize";
+import { Action, PermissionLevel } from "./interfaces";
 import { Config } from './wallet'
 import { fetch } from './utils';
 
