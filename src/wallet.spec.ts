@@ -1,4 +1,4 @@
-import Wallet, { Processed, Action } from "../index";
+import Wallet, { Processed, Action } from "./";
 import { fetch } from "./utils";
 global.fetch = fetch;
 

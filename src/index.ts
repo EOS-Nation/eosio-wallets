@@ -5,8 +5,8 @@ import {
     pushTransaction,
     getWallet,
     getWalletProtocol,
-} from "./src/wallet";
-export * from "./src/interfaces";
+} from "./wallet";
+export * from "./interfaces";
 export default {
     init,
     login,
