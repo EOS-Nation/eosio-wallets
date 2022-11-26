@@ -81,8 +81,10 @@ function sessionToAccount( session: LinkSession | null ) {
   return { actor: actor.toString(), permission: permission.toString(), publicKey: publicKey.toString(), authorization: auth.toString() }
 }
 
-export async function login() {
-  const sessions = await link.listSessions(Config.appId);
-  if (sessions.length) return await link.restoreSession(Config.appId);
-  else return (await link.login(Config.appId)).session
+export async function login(restoreSession = true) {
+  if ( restoreSession ) {
+    const sessions = await link.listSessions(Config.appId);
+    if (sessions.length) return await link.restoreSession(Config.appId);
+  }
+  return (await link.login(Config.appId)).session
 }

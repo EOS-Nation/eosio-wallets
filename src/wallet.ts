@@ -45,14 +45,14 @@ export function init( config: WalletConfig ) {
   scatter.init();
 }
 
-export async function login(walletProtocol: string = "anchor"): Promise<WalletAccount> {
+export async function login(walletProtocol: string = "anchor", restoreSession = true): Promise<WalletAccount> {
 
   if ( walletProtocol == "scatter" ) {
-    const account = await scatter.login();
+    const account = await scatter.login(restoreSession);
     return { actor: account.name, permission: account.authority };
   }
   if ( walletProtocol == "anchor" ) {
-    const session = await anchor.login();
+    const session = await anchor.login(restoreSession);
     return { actor: session?.auth.actor.toString(), permission: session?.auth.permission.toString() }
   }
 

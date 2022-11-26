@@ -103,7 +103,7 @@ export async function connect() {
   return connected;
 }
 
-export async function login() {
+export async function login(restoreSession = true) {
   console.log("scatter::login");
   await connect();
   const id = await ScatterJS.login();
