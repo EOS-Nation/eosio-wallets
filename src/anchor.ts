@@ -10,11 +10,10 @@ let link: AnchorLink;
 export function init() {
   if ( !Config.chainId ) throw new Error("Chain ID is not set");
   if ( !Config.rpcEndpoint ) throw new Error("RPC endpoint is not set");
-  if ( !Config.appId ) throw new Error("App ID is not set");
 
   link = new AnchorLink({
     transport: new AnchorLinkBrowserTransport({
-      fuelReferrer: Config.appId,
+      fuelReferrer: Config.appId || "unknown",
       requestStatus: false,
     }),
     chains: [

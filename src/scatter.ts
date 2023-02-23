@@ -13,11 +13,10 @@ export async function init() {
   ScatterJS.plugins(new ScatterEOS());
   if ( !Config.chainId ) throw new Error("Chain ID is not set");
   if ( !Config.rpcEndpoint ) throw new Error("RPC endpoint is not set");
-  if ( !Config.blockchain ) throw new Error("Blockchain is not set");
 
   const { host, protocol } = new URL(Config.rpcEndpoint);
   network = ScatterJS.Network.fromJson({
-    blockchain: Config.blockchain,
+    blockchain: Config.blockchain || "unknown",
     protocol: (protocol.replace(":", '') as "http"|"https"),
     host,
     port: protocol == "https:" ? 443 : 80,

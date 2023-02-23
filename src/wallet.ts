@@ -25,13 +25,12 @@ export function init( config: WalletConfig ) {
     if ( !chainId ) chainId = EOSIO_CHAIN_IDS.get(config.blockchain) || "";
   } else {
     if ( !chainId ) throw new Error("chainId is not set");
-    blockchain = REVERSE_EOSIO_CHAIN_IDS.get(chainId);
+    blockchain = REVERSE_EOSIO_CHAIN_IDS.get(chainId) || "unknown";
   }
 
   // validate config
   if ( !rpcEndpoint ) throw new Error("rpcEndpoint is required");
   if ( !chainId ) throw new Error("chainId is required");
-  if ( !blockchain ) throw new Error("blockchain is required");
   if ( !config.appId ) throw new Error("appId is required");
   if ( !config.appId.match(/^[1-5a-z\.]{2,12}$/) ) throw new Error("appId is invalid (must be 2-12 characters long and contain only lowercase letters, numbers, and dots)");
   checkRpcEndpoint(rpcEndpoint);
